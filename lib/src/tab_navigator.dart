@@ -143,7 +143,7 @@ class TabNavigatorState extends State<TabNavigator> {
         WillPopScope(
           onWillPop: () => _willPop(tabType),
           child: Offstage(
-            key: ValueKey(tabType.value),
+            key: tabType.key,
             offstage: tabType != selectedTab,
             child: HeroControllerScope(
               controller: MaterialApp.createMaterialHeroController(),
@@ -164,7 +164,10 @@ class TabNavigatorState extends State<TabNavigator> {
                           animation,
                           secondaryAnimation,
                         ) {
-                          return widget.mappedTabs[tabType]!();
+                          return widget.mappedTabs.entries
+                              .firstWhere((element) =>
+                                  element.key.value == tabType.value)
+                              .value();
                         },
                       )
                     : widget.onGenerateRoute?.call(rs),

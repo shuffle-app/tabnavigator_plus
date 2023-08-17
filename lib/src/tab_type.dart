@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:flutter/material.dart';
+
 /// base type for a list of tabs
 /// adding new types of tabs via the [append] method
 abstract class TabType {
@@ -19,10 +21,11 @@ abstract class TabType {
   static final _values = <TabType>[];
 
   final int value;
+  final ValueKey key;
 
   static Iterable<TabType> get values => _values;
 
-  const TabType(this.value);
+   TabType(this.value):key=ValueKey<int>(value);
 
   static void append(TabType newTab) {
     _values.add(newTab);
@@ -34,4 +37,15 @@ abstract class TabType {
       orElse: () => throw Exception('Unknown TabType by ordinal $ordinal'),
     );
   }
+
+  @override
+  bool operator == (Object other){
+    if (other is! TabType) return false;
+
+    return value == other.value;
+  }
+
+  @override
+  int get hashCode => value.hashCode;
+
 }
